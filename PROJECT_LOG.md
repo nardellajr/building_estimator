@@ -57,6 +57,14 @@ building_estimator/
 | `core/photo_analyzer.py` | OpenAI Vision API integration | Done |
 | `utils/__init__.py` | Package init | Done |
 | `utils/calculations.py` | All calculation functions (area, lumber, insulation, etc.) | Done |
+| `main.py` | Flet app entry point (1200x800, async, FilePicker) | Done |
+| `ui/__init__.py` | Package init | Done |
+| `ui/app_state.py` | Centralized state management (image paths, callbacks) | Done |
+| `ui/components/__init__.py` | Package init | Done |
+| `ui/components/image_thumbnail.py` | 150x150 thumbnail with X remove button overlay | Done |
+| `ui/components/image_gallery.py` | GridView of thumbnails (5 columns, responsive) | Done |
+| `ui/views/__init__.py` | Package init | Done |
+| `ui/views/photo_input.py` | Photo upload UI with gallery and action buttons | Done |
 
 ### REMAINING FILES TO CREATE
 | Priority | File | Description |
@@ -69,19 +77,14 @@ building_estimator/
 | 6 | `database/__init__.py` | Package init |
 | 7 | `database/db.py` | SQLite connection management |
 | 8 | `database/models.py` | Data models for estimates, user overrides |
-| 9 | `ui/__init__.py` | Package init |
-| 10 | `ui/components/__init__.py` | Package init |
-| 11 | `ui/components/photo_preview.py` | Photo preview component |
-| 12 | `ui/components/dimension_form.py` | Dimension input form component |
-| 13 | `ui/components/estimate_card.py` | Estimate display card component |
-| 14 | `ui/views/__init__.py` | Package init |
-| 15 | `ui/views/home.py` | Main dashboard view |
-| 16 | `ui/views/photo_input.py` | Photo upload/capture view |
-| 17 | `ui/views/dimensions.py` | Dimension input view |
-| 18 | `ui/views/codes.py` | Building code settings view |
-| 19 | `ui/views/estimate.py` | Results display view |
-| 20 | `ui/views/settings.py` | User preferences view |
-| 21 | `main.py` | App entry point with navigation |
+| 9 | `ui/components/photo_preview.py` | Photo preview component |
+| 10 | `ui/components/dimension_form.py` | Dimension input form component |
+| 11 | `ui/components/estimate_card.py` | Estimate display card component |
+| 12 | `ui/views/home.py` | Main dashboard view |
+| 13 | `ui/views/dimensions.py` | Dimension input view |
+| 14 | `ui/views/codes.py` | Building code settings view |
+| 15 | `ui/views/estimate.py` | Results display view |
+| 16 | `ui/views/settings.py` | User preferences view
 
 ---
 
@@ -127,7 +130,19 @@ python main.py
 ---
 
 ## Last Updated
-Session interrupted during creation of `data/materials.json`
+2026-01-19 - Completed UI for image upload and viewing
+
+## Session Notes
+
+### Flet 0.80.2 API Changes
+The following adjustments were needed for compatibility with Flet 0.80.2:
+| Old API | New API |
+|---------|---------|
+| `page.overlay.append(file_picker)` | `page.services.append(file_picker)` |
+| `ft.ImageFit.COVER` | `ft.BoxFit.COVER` |
+| `ft.alignment.center` | `ft.Alignment(0, 0)` |
+| `ft.ElevatedButton` | `ft.Button` |
+| `FilePicker(on_result=callback)` | `await file_picker.pick_files()` (async, returns files) |
 
 ## Next Steps
 1. Create `data/materials.json` - Material catalog with prices
@@ -136,7 +151,6 @@ Session interrupted during creation of `data/materials.json`
 4. Create `core/estimator.py` - Main calculation engine
 5. Create `core/accuracy.py` - Confidence scoring
 6. Create database layer
-7. Create UI components
-8. Create UI views
-9. Create main.py entry point
-10. Test the application
+7. Wire up "Analyze Photos" button to `core/photo_analyzer.py`
+8. Create remaining UI views (dimensions, codes, estimate, settings)
+9. Add navigation between views
